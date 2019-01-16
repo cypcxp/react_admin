@@ -7,7 +7,7 @@ export default class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
-                <Switch>
+                <Switch> 
                     <Route path='/login' component={Login}/>
                     <Route path='/' component={Admin}/>
                 </Switch>

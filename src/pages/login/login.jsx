@@ -7,10 +7,33 @@ import {
 } from 'antd'
 import logo from '../../assets/images/logo.png'
 import './index.less'
+import PropTypes from 'prop-types'
+import {reqLogin} from '../../api'
+import storageUtils from '../../utils/storageUtils'
+import MemoryUtils from '../../utils/MemoryUtils'
 
 
-export default class Login1 extends Component {
+export default class Login extends Component {
+
+    state = {
+        errorMsg : ''
+    }
+
+    login = async(username,password)=>{
+        const result = await reqLogin(username,password);
+        if(result.status===0){
+            const user = result.data;
+            storageUtils.saveUser(user);
+            MemoryUtils.user=user;
+            this.props.history.repalce('/')
+        }else{
+            this.setState({
+                errorMsg:result.msg
+            })
+        }
+    }
     render() {
+        const {errorMsg}=this.state
         return (
             <div className="login">
                 <div className="login-header">
@@ -19,10 +42,15 @@ export default class Login1 extends Component {
                 </div>
                 <div className="login-content">
                     <div className="login-box">
+                        <div className="error-msg-wrap">
+                            <div className={errorMsg ? "show" : ""}>
+                                {errorMsg}
+                            </div>
+                        </div>
                         <div className="title">
                             用户登录
                         </div>
-                        <LoginForm/>
+                        <LoginForm login={this.login}/>
                     </div>
                 </div>
             </div>
@@ -30,13 +58,18 @@ export default class Login1 extends Component {
     }
 }
 class LoginForm extends React.Component {
+    static  propTypes ={
+        login: PropTypes.func.isRequired
+    }
     clickSubmit = () => {
 
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                const {username,password} = values;
+                this.props.login(username,password);
             }else {
-                this.props.form.resetFields()
+                // this.props.form.resetFields()
             }
         });
     }
