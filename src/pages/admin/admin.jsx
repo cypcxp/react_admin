@@ -18,10 +18,10 @@ import Pie from '../charts/pie'
 import './admin.less'
 export default class Admin extends Component {
   render() {
-   /*   const user = MemoryUtils.user
+      const user = MemoryUtils.user
       if(!user || !user._id){
           return <Redirect to="/login"/>
-      }*/
+      }
     return (
         <Row className='container'>
             <Col span={4}>

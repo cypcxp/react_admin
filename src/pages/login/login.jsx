@@ -21,11 +21,12 @@ export default class Login extends Component {
 
     login = async(username,password)=>{
         const result = await reqLogin(username,password);
+        console.log(result)
         if(result.status===0){
             const user = result.data;
             storageUtils.saveUser(user);
             MemoryUtils.user=user;
-            this.props.history.repalce('/')
+            this.props.history.replace('/')
         }else{
             this.setState({
                 errorMsg:result.msg
@@ -89,7 +90,7 @@ class LoginForm extends React.Component {
             <Form className="login-form">
                 <Form.Item>
                     {
-                        getFieldDecorator('userName', {
+                        getFieldDecorator('username', {
                         initialValue: 'admin',
                         rules: [
                             { type:"string",required: true, message: '必须输入用户名' },
