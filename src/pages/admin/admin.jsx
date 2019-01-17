@@ -32,7 +32,7 @@ export default class Admin extends Component {
                 <div className='content'>
                     <Switch>
                         <Route path='/home' component={Home}/>
-    *                    <Route path='/category' component={Category}/>
+                        <Route path='/category' component={Category}/>
                         <Route path='/product' component={Product}/>
                         <Route path='/user' component={User}/>
                         <Route path='/role' component={Role}/>
