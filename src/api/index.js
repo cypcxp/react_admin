@@ -14,8 +14,10 @@ export const reqSearchProducts=({pageNum,pageSize,searchType,searchName})=>ajax(
     pageSize,
     [searchType]:searchName
 })
+export const reqCategory = (categoryId)=>ajax('/manage/category/info',{categoryId})
 export const reqDeleteImg = (name) =>ajax('/manage/img/delete',{name},'POST')
-export  const reqAddUpdateCategory = (product)=>ajax('/manage/product/'+(product._id?'update':'add'),product,'POST')
+export  const reqAddUpdateCategory = (product)=>ajax('/manage/product/'+(product._id?'update':'add'),product,'POST');
+export const reqUpdateProductStatus = (productId, status) => ajax('/manage/product/updateStatus', {productId, status}, 'POST')
 export function reqWeather(city){
     return new Promise((resolve,reject)=>{
         const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`

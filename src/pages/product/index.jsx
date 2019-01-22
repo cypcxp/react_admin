@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {Card, Select, Input, Button, Icon, Table} from 'antd'
-import {reqProducts, reqSearchProducts} from '../../api'
+import {Card, Select, Input, Button, Icon, Table,message} from 'antd'
+import {reqProducts, reqSearchProducts,reqUpdateProductStatus} from '../../api'
 const Option=Select.Option;
 export default class ProductIndex extends Component {
     state={
@@ -9,6 +9,13 @@ export default class ProductIndex extends Component {
         searchType:'productName',
         searchName:''
     }
+    updateProductStatus = async(productId,status)=>{
+        const result = await reqUpdateProductStatus(productId,status);
+        if(result.status===0){
+            message.success('更新状态成功');
+            this.getProducts(this.pageNum ||1)
+        }
+}
     initColumns=()=>{
         this.columns=[
             {
@@ -27,20 +34,30 @@ export default class ProductIndex extends Component {
             {
                 title:'状态',
                 dataIndex:'status',
-                render:(status)=>(
-                    <span>
-                        <Button>下架</Button>
-                        <span>在售</span>
+                render:(status,product)=>{
+                    let btnText='下架'
+                    let statusText = '在售'
+                    if(status===2){
+                        btnText = '上架'
+                        statusText = '已下架'
+                    }
+                    status = status===1?2:1;
+                    return(
+                        <span>
+                        <Button type='primary' onClick={()=>this.updateProductStatus(product._id,status)}>{btnText}</Button>
+                            &nbsp;
+                        <span>{statusText}</span>
                     </span>
-                )
+                    )
+                }
             },
             {
                 title:'操作',
                 render:(product)=>(
                     <span>
-                      <a href="javascript:">详情</a>
+                      <a href="javascript:" onClick={()=>this.props.history.push('/product/detail', product)}>详情</a>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="javascript:">修改</a>
+                        <a href="javascript:" onClick={()=>this.props.history.push('/product/saveupdate', product)}>修改</a>
                     </span>
                 )
             }

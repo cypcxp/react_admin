@@ -60,7 +60,7 @@ export class SaveUpdate extends Component {
         const product = {name, desc, price, pCategoryId, categoryId, detail, imgs};
         const p =this.props.location.state;
         if(p){
-            product._id=p._id;
+            product._id= p._id;
         }
         const result = await reqAddUpdateCategory(product);
         if(result.status===0){
