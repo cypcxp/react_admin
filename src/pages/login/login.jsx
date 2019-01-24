@@ -106,7 +106,7 @@ class LoginForm extends React.Component {
                     })(
                         <Input prefix={<Icon type="lock"/>} type="password" placeholder="Password" />
                     )}
-                </Form.Item>
+                </Form.Item >
                 <Form.Item>
                     <Button type="primary" onClick={this.clickSubmit} className="login-form-button">
                         登录
